@@ -50,7 +50,6 @@ public class SparkApp {
         // The spark stream should collect, in the database, for each time bucket and event id, a counter of all the messages received.
         // The time bucket has a granularity of 1 minute.
         events
-                .withWatermark("timestamp", "60 minutes")  // Watermark to handle late data
                 // check for valid event Id
                 .filter((col("eventId").$greater$eq(0).and(col("eventId").$less$eq(99))))
                 //format the time to minute for further grouping and write into DB
