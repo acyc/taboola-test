@@ -1,4 +1,5 @@
 .DS_Store
-*/target/*
+*/target/**
+db/hsqldb-2.5.1.jar
 .idea/*
 *.iml

@@ -7,5 +7,5 @@ import java.util.Map;
 public interface EventService {
     Map<String, Long> getEventsByTimeBucket(final String timeBucket);
 
-    Event getEventByTimeBucketAndEventId(final String timeBucket, final int eventId);
+    Long getEventByTimeBucketAndEventId(final String timeBucket, final int eventId);
 }

@@ -18,7 +18,7 @@
         <spark.version>2.4.6</spark.version>
         <scala.version>2.11</scala.version>
         <hsqldb.version>2.5.1</hsqldb.version>
-
+        <HikariCP.version>4.0.3</HikariCP.version>
     </properties>
 
     <modules>
@@ -39,6 +39,14 @@
                 <artifactId>hsqldb</artifactId>
                 <version>${hsqldb.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP</artifactId>
+                <version>${HikariCP.version}</version>
+            </dependency>
+
+
 
         </dependencies>
     </dependencyManagement>

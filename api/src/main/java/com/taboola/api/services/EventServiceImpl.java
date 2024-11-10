@@ -1,14 +1,11 @@
 package com.taboola.api.services;
 
-import com.taboola.api.domains.Event;
-import com.taboola.api.exceptions.NotFoundException;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import com.taboola.api.exceptions.NotFoundException;
 
 
 @Component
@@ -20,34 +17,35 @@ public class EventServiceImpl implements EventService {
         this.dbService = dbService;
     }
 
+    /**
+     * Get event ID and count map by timeBucket
+     * @param timeBucket - the timeBucket to get the map.
+     * @return the map that contains eventID and count.
+     * @throws NotFoundException if the map is empty.
+     */
     public Map<String, Long> getEventsByTimeBucket(final String timeBucket) {
+        Map<String, Long> result = this.dbService.queryEventByTimeBucket(timeBucket);
 
-        final String sql = "select time_bucket, event_id, \"COUNT\" from events where time_bucket = ? order by event_id";
-        Map<Integer, Object> map = new HashMap<>(1);
-        map.put(1, timeBucket);
-
-        Map<String, Long> result = this.dbService.queryEvent(sql, map)
-                .stream()
-                .collect(Collectors.toMap(Event::getEventId, Event::getCount));
-
-        if(result.isEmpty()){
+        if (result.isEmpty()) {
             throw new NotFoundException(timeBucket);
         }
 
         return result;
     }
 
-    public Event getEventByTimeBucketAndEventId(final String timeBucket, final int eventId) {
-
-        final String sql = "select time_bucket, event_id, \"COUNT\" from events where time_bucket = ? and event_id = ?";
-        Map<Integer, Object> map = new HashMap<>(2);
-        map.put(1, timeBucket);
-        map.put(2, eventId);
-        List<Event> events = this.dbService.queryEvent(sql, map);
-        if(events.isEmpty()){
+    /**
+     * Get count by timeBucket and eventId
+     * @param timeBucket - the timeBucket to get the count
+     * @param eventId - the eventId to get the count.
+     * @return the count of events for the timeBucket and eventId.
+     * @throws NotFoundException if the count is null
+     */
+    public Long getEventByTimeBucketAndEventId(final String timeBucket, final int eventId) {
+        Long count = this.dbService.queryCountByTimeBucketAndEventId(timeBucket, eventId);
+        if (count == null) {
             throw new NotFoundException(timeBucket, eventId);
         }
-        return events.get(0);
+        return count;
     }
 
 

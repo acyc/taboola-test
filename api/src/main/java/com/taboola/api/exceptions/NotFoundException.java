@@ -6,6 +6,6 @@ public class NotFoundException extends RuntimeException {
     }
 
     public NotFoundException(final String timeBucket, final int eventId){
-        super(String.format("Unable to find event %s in this time bucket: %s",eventId, timeBucket));
+        super(String.format("Unable to find Event ID: %s, in this time bucket: %s",eventId, timeBucket));
     }
 }
